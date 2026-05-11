@@ -49,7 +49,7 @@ defmodule OpentelemetryCommanded.MixProject do
   defp package do
     [
       description: "Trace Commanded CQRS operations with OpenTelemetry",
-      licenses: ["Apache-2"],
+      licenses: ["Apache-2.0"],
       maintainers: ["Uk Chukundah"],
       links: %{
         "GitHub" => "https://github.com/ukchukx/opentelemetry_commanded",
