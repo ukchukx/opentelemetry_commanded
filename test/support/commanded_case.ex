@@ -12,7 +12,7 @@ defmodule OpentelemetryCommanded.CommandedCase do
   end
 
   alias Commanded.Helpers.CommandAuditMiddleware
-  alias OpentelemetryCommanded.DummyApp.App
+  alias OpentelemetryCommanded.DummyApp.{App, EventHandler, ProcessManager}
 
   require Record
 
@@ -23,8 +23,8 @@ defmodule OpentelemetryCommanded.CommandedCase do
   setup do
     start_supervised!(CommandAuditMiddleware)
     start_supervised!(App)
-    {:ok, _handler} = OpentelemetryCommanded.DummyApp.EventHandler.start_link()
-    {:ok, _pid} = OpentelemetryCommanded.DummyApp.ProcessManager.start_link(start_from: :current)
+    {:ok, _handler} = EventHandler.start_link()
+    {:ok, _pid} = ProcessManager.start_link(start_from: :current)
 
     :application.stop(:opentelemetry)
     :application.set_env(:opentelemetry, :tracer, :otel_tracer_default)

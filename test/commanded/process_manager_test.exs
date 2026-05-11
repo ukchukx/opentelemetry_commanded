@@ -39,8 +39,7 @@ defmodule OpentelemetryCommanded.ProcessManagerTest do
 
       assert match?(
                %{
-                 "commanded.event":
-                   "Elixir.OpentelemetryCommanded.DummyApp.Events.OkEvent"
+                 "commanded.event": "Elixir.OpentelemetryCommanded.DummyApp.Events.OkEvent"
                },
                attributes
              )
@@ -70,8 +69,7 @@ defmodule OpentelemetryCommanded.ProcessManagerTest do
 
       assert match?(
                %{
-                 "commanded.event":
-                   "Elixir.OpentelemetryCommanded.DummyApp.Events.ErrorInProcessManagerEvent"
+                 "commanded.event": "Elixir.OpentelemetryCommanded.DummyApp.Events.ErrorInProcessManagerEvent"
                },
                attributes
              )
@@ -104,8 +102,7 @@ defmodule OpentelemetryCommanded.ProcessManagerTest do
 
       assert match?(
                %{
-                 "commanded.event":
-                   "Elixir.OpentelemetryCommanded.DummyApp.Events.ExceptionInProcessManagerEvent"
+                 "commanded.event": "Elixir.OpentelemetryCommanded.DummyApp.Events.ExceptionInProcessManagerEvent"
                },
                attributes
              )

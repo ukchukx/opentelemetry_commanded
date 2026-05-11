@@ -96,8 +96,7 @@ defmodule OpentelemetryCommanded.AggregateTest do
 
       assert match?(
                %{
-                 "commanded.command":
-                   OpentelemetryCommanded.DummyApp.Commands.RaiseException
+                 "commanded.command": OpentelemetryCommanded.DummyApp.Commands.RaiseException
                },
                attributes
              )

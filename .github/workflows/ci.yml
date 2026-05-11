@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+
+    env:
+      MIX_ENV: test
+
+    strategy:
+      matrix:
+        elixir: ["1.19", "1.18"]
+        otp: ["28", "27"]
+      fail-fast: false
+
+    name: Test on OTP ${{ matrix.otp }} + Elixir ${{ matrix.elixir }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Elixir + OTP
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
+
+      - name: Cache Hex packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/hex
+          key: ${{ runner.os }}-mix-hex-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-hex-
+
+      - name: Cache Mix dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-${{ matrix.otp }}-${{ matrix.elixir }}-
+
+      - name: Install dependencies
+        run: mix deps.get --only test
+
+      - name: Compile project
+        run: mix compile
+
+      - name: Lint
+        run: mix credo --strict
+        continue-on-error: true
+
+      # Format check
+      - name: Check formatting
+        run: mix format --check-formatted
+
+      # Static analysis
+      - name: Run Dialyzer
+        run: mix dialyzer
+
+      # Coverage
+      - name: Run tests with coverage
+        run: mix coveralls
+        continue-on-error: true

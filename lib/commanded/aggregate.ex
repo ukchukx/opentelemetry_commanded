@@ -9,7 +9,7 @@ defmodule OpentelemetryCommanded.Aggregate do
 
   @tracer_id __MODULE__
 
-  def setup() do
+  def setup do
     :telemetry.attach(
       {__MODULE__, :start},
       [:commanded, :aggregate, :execute, :start],

@@ -2,8 +2,6 @@
 
 Telemetry handler that creates OpenTelemetry spans from [Commanded](https://github.com/commanded/commanded) commands and events.
 
-⚠️⚠️ **Warning** This project is currently in Alpha status⚠️⚠️
-
 ## Supported spans
 
 OpentelemetryCommanded currently creates spans for:
@@ -22,7 +20,7 @@ by adding `opentelemetry_commanded` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:opentelemetry_commanded, "~> 0.1.0"}
+    {:opentelemetry_commanded, "~> 0.2"}
   ]
 end
 ```

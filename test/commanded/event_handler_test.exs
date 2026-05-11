@@ -39,8 +39,7 @@ defmodule OpentelemetryCommanded.EventHandlerTest do
 
       assert match?(
                %{
-                 "commanded.event":
-                   "Elixir.OpentelemetryCommanded.DummyApp.Events.OkEvent"
+                 "commanded.event": "Elixir.OpentelemetryCommanded.DummyApp.Events.OkEvent"
                },
                attributes
              )
@@ -70,8 +69,7 @@ defmodule OpentelemetryCommanded.EventHandlerTest do
 
       assert match?(
                %{
-                 "commanded.event":
-                   "Elixir.OpentelemetryCommanded.DummyApp.Events.ErrorInEventHandlerEvent"
+                 "commanded.event": "Elixir.OpentelemetryCommanded.DummyApp.Events.ErrorInEventHandlerEvent"
                },
                attributes
              )
@@ -104,8 +102,7 @@ defmodule OpentelemetryCommanded.EventHandlerTest do
 
       assert match?(
                %{
-                 "commanded.event":
-                   "Elixir.OpentelemetryCommanded.DummyApp.Events.ExceptionInEventHandlerEvent"
+                 "commanded.event": "Elixir.OpentelemetryCommanded.DummyApp.Events.ExceptionInEventHandlerEvent"
                },
                attributes
              )
