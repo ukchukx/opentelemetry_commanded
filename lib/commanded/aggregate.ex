@@ -52,10 +52,7 @@ defmodule OpentelemetryCommanded.Aggregate do
       @tracer_id,
       "commanded.aggregate.execute",
       meta,
-      %{
-        kind: :consumer,
-        attributes: attributes
-      }
+      %{kind: :consumer, attributes: attributes}
     )
   end
 
@@ -73,12 +70,7 @@ defmodule OpentelemetryCommanded.Aggregate do
     OpentelemetryTelemetry.end_telemetry_span(@tracer_id, meta)
   end
 
-  def handle_exception(
-        _event,
-        _measurements,
-        %{kind: kind, reason: reason, stacktrace: stacktrace} = meta,
-        _config
-      ) do
+  def handle_exception(_event, _measurements, %{kind: kind, reason: reason, stacktrace: stacktrace} = meta, _config) do
     ctx = OpentelemetryTelemetry.set_current_telemetry_span(@tracer_id, meta)
 
     # try to normalize all errors to Elixir exceptions

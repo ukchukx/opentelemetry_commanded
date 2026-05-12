@@ -64,10 +64,7 @@ defmodule OpentelemetryCommanded.EventStore do
       @tracer_id,
       "commanded.event_store.#{action}",
       meta,
-      %{
-        kind: :internal,
-        attributes: attributes
-      }
+      %{kind: :internal, attributes: attributes}
     )
   end
 
@@ -81,12 +78,7 @@ defmodule OpentelemetryCommanded.EventStore do
     OpentelemetryTelemetry.end_telemetry_span(@tracer_id, meta)
   end
 
-  def handle_exception(
-        _event,
-        _measurements,
-        %{kind: kind, reason: reason, stacktrace: stacktrace} = meta,
-        _config
-      ) do
+  def handle_exception(_event, _measurements, %{kind: kind, reason: reason, stacktrace: stacktrace} = meta, _config) do
     ctx = OpentelemetryTelemetry.set_current_telemetry_span(@tracer_id, meta)
 
     # try to normalize all errors to Elixir exceptions

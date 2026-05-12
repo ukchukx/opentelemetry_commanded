@@ -43,10 +43,7 @@ defmodule OpentelemetryCommanded.Application do
       @tracer_id,
       "commanded.application.dispatch",
       meta,
-      %{
-        kind: :consumer,
-        attributes: attributes
-      }
+      %{kind: :consumer, attributes: attributes}
     )
   end
 
