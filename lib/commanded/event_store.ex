@@ -55,16 +55,10 @@ defmodule OpentelemetryCommanded.EventStore do
 
     safe_context_propagation(event.metadata["trace_ctx"])
 
-    attributes = [
-      "commanded.application": meta.application,
-      "commanded.causation_id": event.causation_id,
-      "commanded.correlation_id": event.correlation_id,
-      "commanded.event": event.event_type,
-      "commanded.event_id": event.event_id,
-      "commanded.event_number": event.event_number,
-      "commanded.stream_id": event.stream_id,
-      "commanded.stream_version": event.stream_version
-    ]
+    attributes =
+      [
+        "commanded.application": struct_name(meta.application)
+      ] ++ event_attributes(event)
 
     OpentelemetryTelemetry.start_telemetry_span(
       @tracer_id,

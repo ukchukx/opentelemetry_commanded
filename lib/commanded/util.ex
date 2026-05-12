@@ -29,7 +29,30 @@ defmodule OpentelemetryCommanded.Util do
     |> List.to_tuple()
   end
 
-  def struct_name(%name{}) do
-    name
+  def struct_name(name) when is_binary(name), do: String.replace(name, ~r/^Elixir\./, "")
+  def struct_name(%name{}), do: inspect(name)
+  def struct_name(name), do: inspect(name)
+
+  def messaging_attributes(context, kind, handler) do
+    [
+      "messaging.conversation_id": context.correlation_id,
+      "messaging.destination": struct_name(handler),
+      "messaging.destination_kind": kind,
+      "messaging.message_id": context.causation_id,
+      "messaging.operation": "receive",
+      "messaging.system": "commanded"
+    ]
+  end
+
+  def event_attributes(event) do
+    [
+      "commanded.causation_id": event.causation_id,
+      "commanded.correlation_id": event.correlation_id,
+      "commanded.event": struct_name(event.event_type),
+      "commanded.event_id": event.event_id,
+      "commanded.event_number": event.event_number,
+      "commanded.stream_id": event.stream_id,
+      "commanded.stream_version": event.stream_version
+    ]
   end
 end

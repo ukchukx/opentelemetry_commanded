@@ -37,21 +37,16 @@ defmodule OpentelemetryCommanded.Aggregate do
 
     safe_context_propagation(context.metadata["trace_ctx"])
 
-    attributes = [
-      "commanded.aggregate_uuid": meta.aggregate_uuid,
-      "commanded.aggregate_version": meta.aggregate_version,
-      "commanded.application": meta.application,
-      "commanded.causation_id": context.causation_id,
-      "commanded.command": struct_name(context.command),
-      "commanded.correlation_id": context.correlation_id,
-      "commanded.function": context.function,
-      "messaging.conversation_id": context.correlation_id,
-      "messaging.destination": context.handler,
-      "messaging.destination_kind": "aggregate",
-      "messaging.message_id": context.causation_id,
-      "messaging.operation": "receive",
-      "messaging.system": "commanded"
-    ]
+    attributes =
+      [
+        "commanded.application": struct_name(meta.application),
+        "commanded.aggregate_uuid": meta.aggregate_uuid,
+        "commanded.aggregate_version": meta.aggregate_version,
+        "commanded.command": struct_name(context.command),
+        "commanded.causation_id": context.causation_id,
+        "commanded.correlation_id": context.correlation_id,
+        "commanded.function": context.function
+      ] ++ messaging_attributes(context, "aggregate", context.handler)
 
     OpentelemetryTelemetry.start_telemetry_span(
       @tracer_id,

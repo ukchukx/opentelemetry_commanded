@@ -36,28 +36,18 @@ defmodule OpentelemetryCommanded.ProcessManager do
     recorded_event = meta.recorded_event
     safe_context_propagation(recorded_event.metadata["trace_ctx"])
 
-    attributes = [
-      "commanded.application": meta.application,
-      "commanded.causation_id": recorded_event.causation_id,
-      "commanded.correlation_id": recorded_event.correlation_id,
-      "commanded.event": recorded_event.event_type,
-      "commanded.event_id": recorded_event.event_id,
-      "commanded.event_number": recorded_event.event_number,
-      "commanded.handler_name": meta.process_manager_name,
-      "commanded.process_uuid": meta.process_uuid,
-      "commanded.stream_id": recorded_event.stream_id,
-      "commanded.stream_version": recorded_event.stream_version,
-      "messaging.conversation_id": recorded_event.correlation_id,
-      "messaging.destination": meta.process_manager_module,
-      "messaging.destination_kind": "process_manager",
-      "messaging.message_id": recorded_event.causation_id,
-      "messaging.operation": "receive",
-      "messaging.system": "commanded"
-      # TODO add back
-      # consistency: meta.consistency,
-      #  TODO add this back into commanded
-      # "event.last_seen": meta.last_seen_event
-    ]
+    attributes =
+      [
+        "commanded.application": struct_name(meta.application),
+        "commanded.handler_name": struct_name(meta.process_manager_name),
+        "commanded.process_uuid": meta.process_uuid
+        # TODO add back
+        # consistency: meta.consistency,
+        #  TODO add this back into commanded
+        # "event.last_seen": meta.last_seen_event
+      ] ++
+        event_attributes(recorded_event) ++
+        messaging_attributes(recorded_event, "process_manager", meta.process_manager_module)
 
     OpentelemetryTelemetry.start_telemetry_span(
       @tracer_id,
