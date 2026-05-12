@@ -4,7 +4,7 @@ defmodule OpentelemetryCommanded.MixProject do
   def project do
     [
       app: :opentelemetry_commanded,
-      version: "0.2.0",
+      version: "0.2.1",
       elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
       elixirc_options: [warnings_as_errors: true],
